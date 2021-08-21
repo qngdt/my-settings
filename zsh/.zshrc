@@ -5,7 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source /Users/Homuru/.bash_profile
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -75,7 +74,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vscode zsh-autosuggestions fast-syntax-highlighting z zsh-completions zsh-syntax-highlighting kubectl vi-mode)
+export NVM_COMPLETION=true
+export NVM_LAZY_LOAD=true
+
+plugins=(zsh-nvm git vscode zsh-autosuggestions fast-syntax-highlighting z zsh-completions vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 # User configuration
@@ -108,9 +110,15 @@ export LC_CTYPE="en_US.UTF-8"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=~/.composer/vendor/bin:$PATH
 
-
+[[ -s "/Users/homuru/.gvm/scripts/gvm" ]] && source "/Users/homuru/.gvm/scripts/gvm"
+source "$HOME/.cargo/env"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
 export PATH="/usr/local/opt/php@7.2/bin:$PATH"
@@ -120,21 +128,11 @@ export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOBIN
 
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
-alias tf='terraform'
-alias k='kubectl'
-alias c='code .'
 autoload -U +X bashcompinit && bashcompinit
 fpath=($fpath ~/.zsh/completion)
-complete -o nospace -C /usr/local/bin/terraform terraform
 
-eval $(thefuck --alias)
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
+
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
 fi
